@@ -1,0 +1,12 @@
+---
+driver_plugin: vagrant
+
+driver_config:
+  require_chef_omnibus: true
+  name: chef_zero
+
+suites:
+  - name: default
+    run_list:
+      - recipe[ffmpeg_amazon::default]
+    attributes:
