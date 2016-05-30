@@ -228,7 +228,6 @@ execute 'Install vorbis' do
   notifies :create, "file[#{src_dir}/vorbis-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download vorbis]', :delayed
   notifies :delete, "directory[#{vorbis_source_path}]", :delayed
-  notifies :create, 'remote_file[Download ffmpeg]', :delayed
 end
 
 file "#{src_dir}/vorbis-VERSION.txt" do
@@ -276,7 +275,6 @@ execute 'Install x264' do
   only_if { install_x264 }
   notifies :create, "file[#{src_dir}/x264-VERSION.txt]", :delayed
   notifies :delete, "directory[#{x264_source_path}]", :delayed
-  notifies :create, 'remote_file[Download ffmpeg]', :delayed
 end
 
 file "#{src_dir}/x264-VERSION.txt" do
@@ -329,7 +327,6 @@ execute 'Install faac' do
   notifies :create, "file[#{src_dir}/faac-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download faac]', :delayed
   notifies :delete, "directory[#{faac_source_path}]", :delayed
-  notifies :create, 'remote_file[Download ffmpeg]', :delayed
 end
 
 file "#{src_dir}/faac-VERSION.txt" do
