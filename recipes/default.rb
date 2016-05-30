@@ -62,11 +62,13 @@ execute 'Install yasm' do
     make distclean
     EOF
   only_if { install_yasm }
+  notifies :create, "file[#{src_dir}/yasm-VERSION.txt]", :delayed
   notifies :delete, "directory[#{yasm_source_path}]", :delayed
 end
 
 file "#{src_dir}/yasm-VERSION.txt" do
   content node['yasm']['version']
+  action :nothing
 end
 
 #
@@ -111,12 +113,14 @@ execute 'Install lame' do
     make install
     EOF
   only_if { install_lame }
+  notifies :create, "file[#{src_dir}/lame-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download lame]', :delayed
   notifies :delete, "directory[#{lame_source_path}]", :delayed
 end
 
 file "#{src_dir}/lame-VERSION.txt" do
   content node['lame']['version']
+  action :nothing
 end
 
 #
@@ -163,6 +167,7 @@ execute 'Install ogg' do
     'CPPFLAGS' => "-I#{build_dir}/include"
   })
   only_if { install_ogg }
+  notifies :create, "file[#{src_dir}/ogg-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download ogg]', :delayed
   notifies :delete, "directory[#{ogg_source_path}]", :delayed
   notifies :create, "file[#{src_dir}/vorbis-VERSION.txt]", :immediately
@@ -170,6 +175,7 @@ end
 
 file "#{src_dir}/ogg-VERSION.txt" do
   content node['ogg']['version']
+  action :nothing
 end
 
 #
@@ -222,6 +228,7 @@ execute 'Install vorbis' do
     'CPPFLAGS' => "-I#{build_dir}/include"
   })
   only_if { install_vorbis }
+  notifies :create, "file[#{src_dir}/vorbis-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download vorbis]', :delayed
   notifies :delete, "directory[#{vorbis_source_path}]", :delayed
   notifies :create, 'remote_file[Download ffmpeg]', :delayed
@@ -229,6 +236,7 @@ end
 
 file "#{src_dir}/vorbis-VERSION.txt" do
   content node['vorbis']['version']
+  action :nothing
 end
 
 
@@ -270,12 +278,14 @@ execute 'Install x264' do
     'PKG_CONFIG_PATH' => "#{build_dir}/lib/pkgconfig"
     })
   only_if { install_x264 }
+  notifies :create, "file[#{src_dir}/x264-VERSION.txt]", :delayed
   notifies :delete, "directory[#{x264_source_path}]", :delayed
   notifies :create, 'remote_file[Download ffmpeg]', :delayed
 end
 
 file "#{src_dir}/x264-VERSION.txt" do
   content node['x264']['version']
+  action :nothing
 end
 
 #
@@ -320,6 +330,7 @@ execute 'Install faac' do
     make install
     EOF
   only_if { install_faac }
+  notifies :create, "file[#{src_dir}/faac-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download faac]', :delayed
   notifies :delete, "directory[#{faac_source_path}]", :delayed
   notifies :create, 'remote_file[Download ffmpeg]', :delayed
@@ -327,6 +338,7 @@ end
 
 file "#{src_dir}/faac-VERSION.txt" do
   content node['faac']['version']
+  action :nothing
 end
 
 #
@@ -386,10 +398,12 @@ execute 'Install ffmpeg' do
     'PKG_CONFIG_PATH' => "#{build_dir}/lib/pkgconfig"
   })
   only_if { run_ffmpeg }
+  notifies :create, "file[#{src_dir}/ffmpeg-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download ffmpeg]', :delayed
   notifies :delete, "directory[#{ffmpeg_source_path}]", :delayed
 end
 
 file "#{src_dir}/ffmpeg-VERSION.txt" do
   content node['ffmpeg']['version']
+  action :nothing
 end
