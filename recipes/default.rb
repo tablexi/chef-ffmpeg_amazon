@@ -59,7 +59,6 @@ execute 'Install yasm' do
     ./configure --prefix="#{build_dir}" --bindir="#{bin_dir}"
     make
     make install
-    make distclean
     EOF
   only_if { install_yasm }
   notifies :create, "file[#{src_dir}/yasm-VERSION.txt]", :delayed
@@ -160,7 +159,6 @@ execute 'Install ogg' do
     ./configure --prefix="#{build_dir}" --disable-shared
     make
     make install
-    make distclean
     EOF
   environment ({
     'LDFLAGS' => "-L#{build_dir}/lib",
@@ -221,7 +219,6 @@ execute 'Install vorbis' do
     ./configure --prefix="#{build_dir}" --with-ogg="#{build_dir}" --disable-shared
     make
     make install
-    make distclean
     EOF
   environment ({
     'LDFLAGS' => "-L#{build_dir}/lib",
@@ -272,7 +269,6 @@ execute 'Install x264' do
     ./configure --prefix="#{build_dir}" --bindir="#{bin_dir}" --enable-static
     make
     make install
-    make distclean
     EOF
   environment ({
     'PKG_CONFIG_PATH' => "#{build_dir}/lib/pkgconfig"
@@ -392,7 +388,6 @@ execute 'Install ffmpeg' do
     ./configure --prefix="#{build_dir}" --extra-cflags="-I#{build_dir}/include" --extra-ldflags="-L#{build_dir}/lib" --bindir="#{bin_dir}" --pkg-config-flags="--static" #{node['ffmpeg']['compile_flags'].join(' ')}
     make
     make install
-    make clean
     EOF
   environment ({
     'PKG_CONFIG_PATH' => "#{build_dir}/lib/pkgconfig"
