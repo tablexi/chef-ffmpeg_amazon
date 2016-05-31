@@ -12,7 +12,7 @@ default['ffmpeg']['compile_flags'] = [
   '--enable-libx264',
   '--enable-libfaac',
   '--enable-libmp3lame',
-  '--enable-libvorbis',
+  '--enable-libvorbis'
 ]
 
 default['ffmpeg']['source_dir'] = '/opt/src'

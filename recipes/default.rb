@@ -87,7 +87,7 @@ install_lame =
     true
   end
 
-remote_file "Download lame" do
+remote_file 'Download lame' do
   source "http://downloads.sourceforge.net/project/lame/lame/#{lame_major_minor}/lame-#{node['lame']['version']}.tar.gz"
   path lame_tar_tmp_path
   only_if { install_lame }
@@ -98,7 +98,7 @@ directory lame_source_path do
   only_if { install_lame }
 end
 
-execute "Extract lame" do
+execute 'Extract lame' do
   cwd Chef::Config[:file_cache_path]
   command "tar zxf #{lame_tar_tmp_path} -C #{lame_source_path}"
   only_if { install_lame }
@@ -136,7 +136,7 @@ install_ogg =
     true
   end
 
-remote_file "Download ogg" do
+remote_file 'Download ogg' do
   source "http://downloads.xiph.org/releases/ogg/libogg-#{node['ogg']['version']}.tar.gz"
   path ogg_tar_tmp_path
   only_if { install_ogg }
@@ -147,7 +147,7 @@ directory ogg_source_path do
   only_if { install_ogg }
 end
 
-execute "Extract ogg" do
+execute 'Extract ogg' do
   cwd Chef::Config[:file_cache_path]
   command "tar zxf #{ogg_tar_tmp_path} -C #{ogg_source_path}"
   only_if { install_ogg }
@@ -160,10 +160,10 @@ execute 'Install ogg' do
     make
     make install
     EOF
-  environment ({
+  environment(
     'LDFLAGS' => "-L#{build_dir}/lib",
     'CPPFLAGS' => "-I#{build_dir}/include"
-  })
+  )
   only_if { install_ogg }
   notifies :create, "file[#{src_dir}/ogg-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download ogg]', :delayed
@@ -196,7 +196,7 @@ install_vorbis =
     true
   end
 
-remote_file "Download vorbis" do
+remote_file 'Download vorbis' do
   source "http://downloads.xiph.org/releases/vorbis/libvorbis-#{node['vorbis']['version']}.tar.gz"
   path vorbis_tar_tmp_path
   only_if { install_vorbis }
@@ -207,7 +207,7 @@ directory vorbis_source_path do
   only_if { install_vorbis }
 end
 
-execute "Extract vorbis" do
+execute 'Extract vorbis' do
   cwd Chef::Config[:file_cache_path]
   command "tar zxf #{vorbis_tar_tmp_path} -C #{vorbis_source_path}"
   only_if { install_vorbis }
@@ -220,10 +220,10 @@ execute 'Install vorbis' do
     make
     make install
     EOF
-  environment ({
+  environment(
     'LDFLAGS' => "-L#{build_dir}/lib",
     'CPPFLAGS' => "-I#{build_dir}/include"
-  })
+  )
   only_if { install_vorbis }
   notifies :create, "file[#{src_dir}/vorbis-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download vorbis]', :delayed
@@ -234,7 +234,6 @@ file "#{src_dir}/vorbis-VERSION.txt" do
   content node['vorbis']['version']
   action :nothing
 end
-
 
 #
 # x264
@@ -269,9 +268,9 @@ execute 'Install x264' do
     make
     make install
     EOF
-  environment ({
+  environment(
     'PKG_CONFIG_PATH' => "#{build_dir}/lib/pkgconfig"
-    })
+  )
   only_if { install_x264 }
   notifies :create, "file[#{src_dir}/x264-VERSION.txt]", :delayed
   notifies :delete, "directory[#{x264_source_path}]", :delayed
@@ -296,7 +295,7 @@ install_faac =
     true
   end
 
-remote_file "Download faac" do
+remote_file 'Download faac' do
   source "http://downloads.sourceforge.net/project/faac/faac-src/faac-#{node['faac']['version']}/faac-#{node['faac']['version']}.tar.gz"
   path faac_tar_tmp_path
   only_if { install_faac }
@@ -307,7 +306,7 @@ directory faac_source_path do
   only_if { install_faac }
 end
 
-execute "Extract faac" do
+execute 'Extract faac' do
   cwd Chef::Config[:file_cache_path]
   command "tar zxf #{faac_tar_tmp_path} -C #{faac_source_path}"
   only_if { install_faac }
@@ -351,18 +350,18 @@ install_ffmpeg =
 # Only compile ffmpeg if there is a version difference with ffmpeg or any encoder dependencies
 run_ffmpeg =
   if install_yasm ||
-    install_lame ||
-    install_ogg ||
-    install_vorbis ||
-    install_x264 ||
-    install_faac ||
-    install_ffmpeg
+     install_lame ||
+     install_ogg ||
+     install_vorbis ||
+     install_x264 ||
+     install_faac ||
+     install_ffmpeg
     true
   else
     false
   end
 
-remote_file "Download ffmpeg" do
+remote_file 'Download ffmpeg' do
   source "http://ffmpeg.org/releases/ffmpeg-#{node['ffmpeg']['version']}.tar.gz"
   path ffmpeg_tar_tmp_path
   only_if { run_ffmpeg }
@@ -373,7 +372,7 @@ directory ffmpeg_source_path do
   only_if { run_ffmpeg }
 end
 
-execute "Extract ffmpeg" do
+execute 'Extract ffmpeg' do
   cwd Chef::Config[:file_cache_path]
   command "tar zxf #{ffmpeg_tar_tmp_path} -C #{ffmpeg_source_path}"
   only_if { run_ffmpeg }
@@ -386,9 +385,9 @@ execute 'Install ffmpeg' do
     make
     make install
     EOF
-  environment ({
+  environment(
     'PKG_CONFIG_PATH' => "#{build_dir}/lib/pkgconfig"
-  })
+  )
   only_if { run_ffmpeg }
   notifies :create, "file[#{src_dir}/ffmpeg-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download ffmpeg]', :delayed
