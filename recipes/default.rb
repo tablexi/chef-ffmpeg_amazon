@@ -251,7 +251,7 @@ install_x264 =
 git 'Download x264' do
   depth 1
   destination x264_source_path
-  repository 'git://git.videolan.org/x264'
+  repository node['x264']['repo']
   revision node['x264']['version']
   only_if { install_x264 }
 end

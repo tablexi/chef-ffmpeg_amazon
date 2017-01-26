@@ -29,6 +29,7 @@ default['ogg']['version'] = '1.3.2'
 
 default['vorbis']['version'] = '1.3.4'
 
-default['x264']['version'] = 'fd2c324731c2199e502ded9eff723d29c6eafe0b'
+default['x264']['version'] = 'stable'
+default['x264']['repo'] = 'http://git.videolan.org/git/x264.git'
 
 default['yasm']['version'] = '1.3.0'
