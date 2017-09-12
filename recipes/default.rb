@@ -264,6 +264,7 @@ end
 execute 'Install x264' do
   cwd x264_source_path
   command <<-EOF
+    export PATH="$PATH:/usr/local/bin"
     ./configure --prefix="#{build_dir}" --bindir="#{bin_dir}" --enable-static
     make
     make install

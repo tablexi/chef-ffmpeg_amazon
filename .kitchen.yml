@@ -9,4 +9,3 @@ suites:
   - name: default
     run_list:
       - recipe[ffmpeg_amazon::default]
-    attributes:

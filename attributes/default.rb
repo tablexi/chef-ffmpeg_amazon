@@ -4,7 +4,7 @@
 #
 #
 
-default['ffmpeg']['dependencies'] = %w(autoconf automake cmake freetype-devel gcc gcc-c++ git libtool make nasm pkgconfig zlib-devel)
+default['ffmpeg']['dependencies'] = %w(autoconf automake cmake freetype-devel gcc gcc-c++ git libtool make nasm openssl-devel pkgconfig zlib-devel)
 
 default['ffmpeg']['compile_flags'] = [
   '--enable-nonfree',
@@ -12,7 +12,8 @@ default['ffmpeg']['compile_flags'] = [
   '--enable-libx264',
   '--enable-libfaac',
   '--enable-libmp3lame',
-  '--enable-libvorbis'
+  '--enable-libvorbis',
+  '--enable-openssl',
 ]
 
 default['ffmpeg']['source_dir'] = '/opt/src'
