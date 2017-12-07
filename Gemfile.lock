@@ -189,7 +189,7 @@ GEM
     proxifier (1.0.3)
     rack (1.6.4)
     rainbow (2.1.0)
-    rake (11.1.2)
+    rake (12.3.0)
     retryable (2.0.3)
     ridley (4.5.1)
       addressable
