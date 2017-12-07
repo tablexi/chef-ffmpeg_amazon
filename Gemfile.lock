@@ -126,7 +126,7 @@ GEM
       multi_json
       retryable (~> 2.0)
       test-kitchen (~> 1.4, >= 1.4.1)
-    kitchen-vagrant (0.20.0)
+    kitchen-vagrant (1.2.1)
       test-kitchen (~> 1.4)
     libyajl2 (1.2.0)
     little-plugger (1.1.4)
