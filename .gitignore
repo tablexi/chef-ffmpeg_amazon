@@ -9,7 +9,6 @@ client-config/*.pem
 client-config/*.rb
 
 .rvmrc
-.ruby-version
 .ruby-gemset
 
 .bundle
@@ -32,4 +31,5 @@ Berksfile.lock
 .kitchen.local.yml
 
 cookbooks/*
-batali.manifest
+
+VERSION
