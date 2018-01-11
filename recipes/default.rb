@@ -25,7 +25,7 @@ end
 
 yasm_source_path = "#{Chef::Config[:file_cache_path]}/yasm"
 
-%w(yasm yasm-devel).each do |pkg|
+%w[yasm yasm-devel].each do |pkg|
   package pkg do
     action :remove
   end
@@ -33,7 +33,7 @@ end
 
 install_yasm =
   if ::File.exist?("#{src_dir}/yasm-VERSION.txt")
-    `cat #{src_dir}/yasm-VERSION.txt` != node['yasm']['version']
+    node['yasm']['version'] != ::Mixlib::ShellOut.new("cat #{src_dir}/yasm-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -54,12 +54,12 @@ end
 
 execute 'Install yasm' do
   cwd yasm_source_path
-  command <<-EOF
+  command <<-BASH
     autoreconf -fiv
     ./configure --prefix="#{build_dir}" --bindir="#{bin_dir}"
     make
     make install
-    EOF
+    BASH
   only_if { install_yasm }
   notifies :create, "file[#{src_dir}/yasm-VERSION.txt]", :delayed
   notifies :delete, "directory[#{yasm_source_path}]", :delayed
@@ -82,7 +82,7 @@ lame_source_path = "#{Chef::Config[:file_cache_path]}/lame"
 
 install_lame =
   if ::File.exist?("#{src_dir}/lame-VERSION.txt")
-    `cat #{src_dir}/lame-VERSION.txt` != node['lame']['version']
+    node['lame']['version'] != ::Mixlib::ShellOut.new("cat #{src_dir}/lame-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -106,11 +106,11 @@ end
 
 execute 'Install lame' do
   cwd "#{lame_source_path}/lame-#{node['lame']['version']}"
-  command <<-EOF
+  command <<-BASH
     ./configure --prefix="#{build_dir}" --bindir="#{bin_dir}" --disable-shared --enable-nasm
     make
     make install
-    EOF
+    BASH
   only_if { install_lame }
   notifies :create, "file[#{src_dir}/lame-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download lame]', :delayed
@@ -131,7 +131,7 @@ ogg_source_path = "#{Chef::Config[:file_cache_path]}/ogg"
 
 install_ogg =
   if ::File.exist?("#{src_dir}/ogg-VERSION.txt")
-    `cat #{src_dir}/ogg-VERSION.txt` != node['ogg']['version']
+    node['ogg']['version'] != ::Mixlib::ShellOut.new("cat #{src_dir}/ogg-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -155,11 +155,11 @@ end
 
 execute 'Install ogg' do
   cwd "#{ogg_source_path}/libogg-#{node['ogg']['version']}"
-  command <<-EOF
+  command <<-BASH
     ./configure --prefix="#{build_dir}" --disable-shared
     make
     make install
-    EOF
+    BASH
   environment(
     'LDFLAGS' => "-L#{build_dir}/lib",
     'CPPFLAGS' => "-I#{build_dir}/include"
@@ -180,7 +180,7 @@ end
 # Vorbis
 #
 
-%w(libvorbis libvorbis-devel).each do |pkg|
+%w[libvorbis libvorbis-devel].each do |pkg|
   package pkg do
     action :remove
   end
@@ -191,7 +191,7 @@ vorbis_source_path = "#{Chef::Config[:file_cache_path]}/vorbis"
 
 install_vorbis =
   if ::File.exist?("#{src_dir}/vorbis-VERSION.txt")
-    `cat #{src_dir}/vorbis-VERSION.txt` != node['vorbis']['version']
+    node['vorbis']['version'] != ::Mixlib::ShellOut.new("cat #{src_dir}/vorbis-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -215,11 +215,11 @@ end
 
 execute 'Install vorbis' do
   cwd "#{vorbis_source_path}/libvorbis-#{node['vorbis']['version']}"
-  command <<-EOF
+  command <<-BASH
     ./configure --prefix="#{build_dir}" --with-ogg="#{build_dir}" --disable-shared
     make
     make install
-    EOF
+    BASH
   environment(
     'LDFLAGS' => "-L#{build_dir}/lib",
     'CPPFLAGS' => "-I#{build_dir}/include"
@@ -243,7 +243,7 @@ x264_source_path = "#{Chef::Config[:file_cache_path]}/x264"
 
 install_x264 =
   if ::File.exist?("#{src_dir}/x264-VERSION.txt")
-    `cat #{src_dir}/x264-VERSION.txt` != node['x264']['version']
+    node['x264']['version'] != ::Mixlib::ShellOut.new("cat #{src_dir}/x264-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -263,12 +263,12 @@ end
 
 execute 'Install x264' do
   cwd x264_source_path
-  command <<-EOF
+  command <<-BASH
     export PATH="$PATH:/usr/local/bin"
     ./configure --prefix="#{build_dir}" --bindir="#{bin_dir}" --enable-static
     make
     make install
-    EOF
+    BASH
   environment(
     'PKG_CONFIG_PATH' => "#{build_dir}/lib/pkgconfig"
   )
@@ -291,7 +291,7 @@ faac_source_path = "#{Chef::Config[:file_cache_path]}/faac"
 
 install_faac =
   if ::File.exist?("#{src_dir}/faac-VERSION.txt")
-    `cat #{src_dir}/faac-VERSION.txt` != node['faac']['version']
+    node['faac']['version'] != ::Mixlib::ShellOut.new("cat #{src_dir}/faac-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -315,14 +315,14 @@ end
 
 execute 'Install faac' do
   cwd "#{faac_source_path}/faac-#{node['faac']['version']}"
-  command <<-EOF
+  command <<-BASH
     ./bootstrap
     ./configure --prefix="#{build_dir}" --bindir="#{bin_dir}" --disable-shared
     # http://stackoverflow.com/a/4320377
     sed -i '126 d' common/mp4v2/mpeg4ip.h
     make
     make install
-    EOF
+    BASH
   only_if { install_faac }
   notifies :create, "file[#{src_dir}/faac-VERSION.txt]", :delayed
   notifies :delete, 'remote_file[Download faac]', :delayed
@@ -343,7 +343,7 @@ ffmpeg_source_path = "#{Chef::Config[:file_cache_path]}/ffmpeg"
 
 install_ffmpeg =
   if ::File.exist?("#{src_dir}/ffmpeg-VERSION.txt")
-    `cat #{src_dir}/ffmpeg-VERSION.txt` != node['ffmpeg']['version']
+    node['ffmpeg']['version'] != ::Mixlib::ShellOut.new("cat #{src_dir}/ffmpeg-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -381,11 +381,11 @@ end
 
 execute 'Install ffmpeg' do
   cwd "#{ffmpeg_source_path}/ffmpeg-#{node['ffmpeg']['version']}"
-  command <<-EOF
+  command <<-BASH
     ./configure --prefix="#{build_dir}" --extra-cflags="-I#{build_dir}/include" --extra-ldflags="-L#{build_dir}/lib" --bindir="#{bin_dir}" --pkg-config-flags="--static" #{node['ffmpeg']['compile_flags'].join(' ')}
     make
     make install
-    EOF
+    BASH
   environment(
     'PKG_CONFIG_PATH' => "#{build_dir}/lib/pkgconfig"
   )
