@@ -31,4 +31,5 @@ Berksfile.lock
 .kitchen.local.yml
 
 cookbooks/*
-batali.manifest
+
+VERSION
