@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rake'
+ruby File.open(File.expand_path('.ruby-version', File.dirname(__FILE__))) { |f| f.read.chomp }
 
 group :lint do
   gem 'rubocop'
