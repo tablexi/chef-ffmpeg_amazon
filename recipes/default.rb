@@ -33,7 +33,7 @@ end
 
 install_yasm =
   if ::File.exist?("#{src_dir}/yasm-VERSION.txt")
-    node['yasm']['version'] != `cat #{src_dir}/yasm-VERSION.txt`
+    node['yasm']['version'] != Mixlib::ShellOut.new("cat #{src_dir}/yasm-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -82,7 +82,7 @@ lame_source_path = "#{Chef::Config[:file_cache_path]}/lame"
 
 install_lame =
   if ::File.exist?("#{src_dir}/lame-VERSION.txt")
-    node['lame']['version'] != `cat #{src_dir}/lame-VERSION.txt`
+    node['lame']['version'] != Mixlib::ShellOut.new("cat #{src_dir}/lame-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -131,7 +131,7 @@ ogg_source_path = "#{Chef::Config[:file_cache_path]}/ogg"
 
 install_ogg =
   if ::File.exist?("#{src_dir}/ogg-VERSION.txt")
-    node['ogg']['version'] != `cat #{src_dir}/ogg-VERSION.txt`
+    node['ogg']['version'] != Mixlib::ShellOut.new("cat #{src_dir}/ogg-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -191,7 +191,7 @@ vorbis_source_path = "#{Chef::Config[:file_cache_path]}/vorbis"
 
 install_vorbis =
   if ::File.exist?("#{src_dir}/vorbis-VERSION.txt")
-    node['vorbis']['version'] != `cat #{src_dir}/vorbis-VERSION.txt`
+    node['vorbis']['version'] != Mixlib::ShellOut.new("cat #{src_dir}/vorbis-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -243,7 +243,7 @@ x264_source_path = "#{Chef::Config[:file_cache_path]}/x264"
 
 install_x264 =
   if ::File.exist?("#{src_dir}/x264-VERSION.txt")
-    node['x264']['version'] != `cat #{src_dir}/x264-VERSION.txt`
+    node['x264']['version'] != Mixlib::ShellOut.new("cat #{src_dir}/x264-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -291,7 +291,7 @@ faac_source_path = "#{Chef::Config[:file_cache_path]}/faac"
 
 install_faac =
   if ::File.exist?("#{src_dir}/faac-VERSION.txt")
-    node['faac']['version'] != `cat #{src_dir}/faac-VERSION.txt`
+    node['faac']['version'] != Mixlib::ShellOut.new("cat #{src_dir}/faac-VERSION.txt").run_command.stdout
   else
     true
   end
@@ -343,7 +343,7 @@ ffmpeg_source_path = "#{Chef::Config[:file_cache_path]}/ffmpeg"
 
 install_ffmpeg =
   if ::File.exist?("#{src_dir}/ffmpeg-VERSION.txt")
-    node['ffmpeg']['version'] != `cat #{src_dir}/ffmpeg-VERSION.txt`
+    node['ffmpeg']['version'] != Mixlib::ShellOut.new("cat #{src_dir}/ffmpeg-VERSION.txt").run_command.stdout
   else
     true
   end

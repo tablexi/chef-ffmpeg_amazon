@@ -9,6 +9,8 @@ source_url 'https://github.com/tablexi/chef-ffmpeg_amazon'
 version_file = File.join(File.dirname(__FILE__), 'VERSION')
 version File.exist?(version_file) ? IO.read(version_file) : '0.0.0'
 
+chef_version '>=12'
+
 supports 'amazon'
 
 depends 'git'
